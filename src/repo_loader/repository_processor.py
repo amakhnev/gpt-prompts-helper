@@ -1,5 +1,36 @@
 import os
-from utils import get_token_count, should_ignore
+import glob
+import sys
+import fnmatch
+import tiktoken
+
+def get_ignore_list(ignore_file_path):
+    ignore_list = []
+    with open(ignore_file_path, 'r') as ignore_file:
+        for line in ignore_file:
+            line = line.strip()
+            if line.startswith('#'):
+                continue
+
+            if line.endswith('/'):
+                line += '*'
+            if sys.platform == "win32":
+                line = line.replace("/", '\\')
+            
+            ignore_list.append(line)
+    return ignore_list
+
+
+def should_ignore(file_path, ignore_list):
+    for pattern in ignore_list:
+        if fnmatch.fnmatch(file_path, pattern):
+            return True
+    return False
+
+def get_token_count(string, model_name='gpt-4'):
+    encoding = tiktoken.encoding_for_model(model_name)
+    return len(encoding.encode(string))
+
 
 def process_prompt_file(data_path, output_path):
 
@@ -28,6 +59,20 @@ def process_repository(repo_path, ignore_list, output_path, output_file_prefix='
     
     def get_output_file_path(output_path, output_file_prefix, file_number):
         return os.path.join(output_path, f"{output_file_prefix}{file_number}.txt")
+
+    def delete_files_with_pattern(output_path, output_file_prefix):
+        # Create the search pattern
+        search_pattern = os.path.join(output_path, f"{output_file_prefix}*.txt")
+
+        # Use glob to get all matching files
+        matching_files = glob.glob(search_pattern)
+
+        # Delete each matching file
+        for file_path in matching_files:
+            os.remove(file_path)
+            print(f"Deleted: {file_path}")
+
+    delete_files_with_pattern(output_path,output_file_prefix)
 
     current_output_file_number = 1
     current_tokens_count = 0

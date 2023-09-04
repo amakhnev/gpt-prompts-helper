@@ -3,8 +3,7 @@ import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from pathlib import Path
 
-from repository_processor import process_repository, process_prompt_file
-from utils import get_ignore_list
+from repository_processor import process_repository, process_prompt_file, get_ignore_list
 
 def main():
 
