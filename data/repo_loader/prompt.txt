@@ -1,0 +1,3 @@
+The following messages will represent a Git repository with code, which we will refer as "SuperProject repository". 
+The structure of the text are sections that begin with ----, followed by a single line containing the file path and file name, followed by a variable amount of lines containing the file contents and ending with !----. There might be one or several files in one message. If you will see such message, note the files and it's content and only acknowledge number of files received. 
+The text representing the Git repository ends when the symbols --END-- are encounted. On receipt of this message acknowledge total number of files in repository.

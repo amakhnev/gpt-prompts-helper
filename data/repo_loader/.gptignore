@@ -1,0 +1,4 @@
+mvn*
+.mvn/*
+.idea/
+*.jar
