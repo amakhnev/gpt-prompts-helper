@@ -2,3 +2,7 @@ mvn*
 .mvn/*
 .idea/
 *.jar
+.helmignore
+README.md
+secrets.yaml
+secrets.dec.yaml
